@@ -230,7 +230,7 @@ class App {
 
         document.getElementById('reset').addEventListener('click', this._reset.bind(this));
 
-        document.getElementById('limit-form').addEventListener('submit', this._setLimit.bind(this);
+        document.getElementById('limit-form').addEventListener('submit', this._setLimit.bind(this));
     }
 
     _newItem(type, e) {
@@ -261,15 +261,19 @@ class App {
     }
 
     _removeItem(type, e) {
+        console.log(e, type);
         if(
             e.target.classList.contains('delete') ||
-            e.target.classList.contains('fa-mark') 
+            e.target.classList.contains('fa-xmark') 
         ) {
+            console.log("in remove item");
             if(confirm('Are you sure?')) {
                 const id = e.target.closest('.card').getAttribute('data-id');
                 type === 'meal'
                 ? this._tracker.removeMeal(id)
                 : this._tracker.removeWorkout(id);
+
+                e.target.closest('.card').remove();
             }
         }
     }
@@ -377,7 +381,7 @@ class Storage {
     static getTotalCalories( defaultCaloires = 0) {
         let totalCalories;
         if( localStorage.getItem('totalCalories') === null) {
-            totalCalories = defaultLimit;
+            totalCalories = defaultCaloires;
         } else {
             totalCalories = +localStorage.getItem('totalCalories');
         }
